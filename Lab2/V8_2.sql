@@ -6,7 +6,7 @@ DROP TABLE dbo.Address;
 /*
 	a) создайте таблицу dbo.Address с такой же структурой
 	как Person.Address, кроме полей geography, uniqueidentifier,
-	не включа¤ индексы, ограничени¤ и триггеры;
+	не включая индексы, ограничения и триггеры;
 */
 create table dbo.Address (
 	AddressID		int,
@@ -17,7 +17,7 @@ create table dbo.Address (
 	PostalCode		nvarchar(16),
 	ModifiedDate	datetime,
 );
---пыталс¤ ещЄ вот так исключить пол¤, но EXCEPT работает с данными, а не со структурой таблицы
+--пытался ещё вот так исключить поля, но EXCEPT работает с данными, а не со структурой таблицы
 --SELECT * INTO dbo.Address 
 --FROM Person.Address
 --EXCEPT
@@ -30,25 +30,25 @@ create table dbo.Address (
 --		st.name = CAST('uniqueidentifier' AS sysname))
 
 /*
-	b) использу¤ инструкцию ALTER TABLE, добавьте в таблицу dbo.Address
+	b) используя инструкцию ALTER TABLE, добавьте в таблицу dbo.Address
 	новое поле ID с типом данных INT, имеющее свойство identity с 
 	начальным значением 1 и приращением 1. 
-	—оздайте дл¤ нового пол¤ ID ограничение UNIQUE;
+	создайте для нового поля ID ограничение UNIQUE;
 */
 ALTER TABLE dbo.Address
 ADD ID int IDENTITY(1, 1) UNIQUE;
 
 /*
-	c) использу¤ инструкцию ALTER TABLE, создайте дл¤ 
-	таблицы dbo.Address ограничение дл¤ пол¤ StateProvinceID,
+	c) используя инструкцию ALTER TABLE, создайте для 
+	таблицы dbo.Address ограничение для поля StateProvinceID,
 	чтобы заполнить его можно было только нечетными числами;
 */  
 ALTER TABLE dbo.Address 
 ADD CONSTRAINT Odd check((StateProvinceID % 2) = 1);
 
 /*
-	d) использу¤ инструкцию ALTER TABLE, создайте дл¤ таблицы 
-	dbo.Address ограничение DEFAULT дл¤ пол¤ AddressLine2, 
+	d) используя инструкцию ALTER TABLE, создайте для таблицы 
+	dbo.Address ограничение DEFAULT для поля AddressLine2, 
 	задайте значение по умолчанию СUnknownТ;
 */
 ALTER TABLE dbo.Address 
@@ -57,9 +57,9 @@ DEFAULT 'Unknown' FOR AddressLine2
 
 /*
 	e) заполните новую таблицу данными из Person.Address. 
-	¬ыберите дл¤ вставки только те адреса, где значение пол¤ Name
-	из таблицы CountryRegion начинаетс¤ на букву СаТ. “акже исключите данные,
-	где StateProvinceID содержит четные числа. «аполните поле AddressLine2 значени¤ми по умолчанию;
+	выберите для вставки только те адреса, где значение поля Name
+	из таблицы CountryRegion начинается на букву а. также исключите данные,
+	где StateProvinceID содержит четные числа. заполните поле AddressLine2 значениями по умолчанию;
 */
 INSERT INTO dbo.Address 
 		(Address.AddressID,
